@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://kewgokakfidm"]
+
+[ext_resource type="Texture2D" uid="uid://21kvso2gkbhe" path="res://assets/art/enemySwimming_1.png" id="1_hopp2"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_wjqs0"]
+[ext_resource type="Texture2D" uid="uid://bkefn8y7j70yr" path="res://assets/art/enemyWalking_1.png" id="1_wy2ci"]
+[ext_resource type="Texture2D" uid="uid://quxacu67a2c7" path="res://assets/art/enemySwimming_2.png" id="2_ja2i1"]
+[ext_resource type="Texture2D" uid="uid://utrn4cty4pbn" path="res://assets/art/enemyFlyingAlt_1.png" id="2_v2t8t"]
+[ext_resource type="Texture2D" uid="uid://mr4qsbu043of" path="res://assets/art/enemyWalking_2.png" id="2_x5k3f"]
+[ext_resource type="Texture2D" uid="uid://bcpvfjqof72xl" path="res://assets/art/enemyFlyingAlt_2.png" id="3_0oxyk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pou7u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_v2t8t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0oxyk")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hopp2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ja2i1")
+}],
+"loop": true,
+"name": &"swimming",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_wy2ci")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_x5k3f")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xsqj8"]
+radius = 56.0
+height = 122.0
+
+[node name="Enemy" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_wjqs0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-5, -8)
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_pou7u")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5, -5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_xsqj8")
+metadata/_edit_group_ = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 10.5)
+scale = Vector2(1, -0.05)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
